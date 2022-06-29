@@ -13,7 +13,6 @@ using NumT = System.Decimal;
 namespace RaplReadBenchmark
 {
     [SimpleJob(RuntimeMoniker.Net60)]
-    [SimpleJob(RuntimeMoniker.Net50, baseline: true)]
     [RPlotExporter]
     public class RaplBench
     {
@@ -29,7 +28,7 @@ namespace RaplReadBenchmark
             string raw_value = File.ReadAllText(FILE_PATH);
             return NumT.Parse(raw_value);
         }
-        [Benchmark]
+        [Benchmark(Baseline =true)]
         public NumT Read_rapl_value()
         {
             NumT n = default;
