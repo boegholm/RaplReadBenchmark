@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
 
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
@@ -18,8 +19,8 @@ namespace RaplReadBenchmark
     {
         StreamReader sr;
         FileStream s;
-        byte[] buff = new byte[1024];
-        int iterations = 1_000_000;
+        byte[] buff = new byte[16];
+        int iterations = 100_000;
 
 
         private const string FILE_PATH = "/sys/devices/virtual/powercap/intel-rapl/intel-rapl:0/energy_uj";
@@ -65,7 +66,7 @@ namespace RaplReadBenchmark
         private NumT read_rapl_value_no_fileopen_buffer()
         {
             s.Seek(0, SeekOrigin.Begin);
-            s.Read(buff, 0, 1024);
+            s.Read(buff, 0, 16);
             string raw_value = Encoding.ASCII.GetString(buff);
             return NumT.Parse(raw_value);
         }
